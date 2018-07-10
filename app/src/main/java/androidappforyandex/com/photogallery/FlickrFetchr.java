@@ -32,7 +32,7 @@ public class FlickrFetchr {
     private static final String TAG = "FlickrFetchr";
     private static final String API_KEY = "23275965a3f41093fe4cf9129b32d1d0";
 
-    public byte[] getUrlBytes(String urlSpec) throws IOException{
+    private byte[] getUrlBytes(String urlSpec) throws IOException{
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 
@@ -43,8 +43,8 @@ public class FlickrFetchr {
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK){
                 throw new IOException(connection.getResponseMessage() + ": with " + urlSpec);
             }
-            int bytesRead = 0;
-            byte[] buffer = new  byte[1024];
+            int bytesRead;
+            byte[] buffer = new byte[1024];
             while ((bytesRead = in.read(buffer)) > 0){
                 out.write(buffer, 0, bytesRead);
             }
@@ -89,7 +89,7 @@ public class FlickrFetchr {
     }
 
     //method that pulls out information for each photo
-    private void parseItems(List<GalleryItem> items, JSONObject jsonBody) throws IOException, JSONException{
+    private void parseItems(List<GalleryItem> items, JSONObject jsonBody) throws JSONException{
 
         //This array contains a collection of JSONObjects, each representing metadata for a single photo
         JSONObject photosJsonObject = jsonBody.getJSONObject("photos");
