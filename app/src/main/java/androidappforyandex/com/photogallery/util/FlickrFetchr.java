@@ -1,4 +1,4 @@
-package androidappforyandex.com.photogallery;
+package androidappforyandex.com.photogallery.util;
 
 import android.net.Uri;
 import android.util.Log;
