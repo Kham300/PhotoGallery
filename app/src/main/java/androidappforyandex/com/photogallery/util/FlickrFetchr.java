@@ -122,7 +122,7 @@ public class FlickrFetchr {
             JSONObject photoJsonObject = photoJsonArray.getJSONObject(i);
 
             GalleryItem item = new GalleryItem();
-            item.setmCaption(photoJsonObject.getString("id"));
+            item.setmId(photoJsonObject.getString("id"));
             item.setmCaption(photoJsonObject.getString("title"));
 
             if (!photoJsonObject.has("url_s")){

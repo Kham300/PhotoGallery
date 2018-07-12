@@ -1,5 +1,6 @@
 package androidappforyandex.com.photogallery;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidappforyandex.com.photogallery.model.GalleryItem;
+import androidappforyandex.com.photogallery.service.PollService;
 import androidappforyandex.com.photogallery.util.FlickrFetchr;
 import androidappforyandex.com.photogallery.util.QueryPreferences;
 import androidappforyandex.com.photogallery.util.ThumbnailDownloader;
@@ -49,6 +51,9 @@ public class PhotoGalleryFragment extends Fragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
         updateItems();
+
+        Intent i  = PollService.newIntent(getActivity());
+        getActivity().startService(i);
 
         Handler responseHandler = new Handler();
         thumbnailDownloader = new ThumbnailDownloader<>(responseHandler);
@@ -114,6 +119,14 @@ public class PhotoGalleryFragment extends Fragment {
                 return false;
             }
         });
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String query = QueryPreferences.getStoredQuery(getActivity());
+                searchView.setQuery(query, false);
+            }
+        });
     }
 
     @Override
@@ -173,8 +186,8 @@ public class PhotoGalleryFragment extends Fragment {
         @Override
         public void onBindViewHolder(PhotoHolder holder, int position) {
             GalleryItem galleryItem = mGalleryItems.get(position);
-            Drawable placeHolder = getResources().getDrawable(R.drawable.ic_android_black_24dp);
-            holder.bindDrawable(placeHolder);
+//            Drawable placeHolder = getResources().getDrawable(R.drawable.ic_android_black_24dp);
+//            holder.bindDrawable(placeHolder);
             thumbnailDownloader.queueThumbnail(holder, galleryItem.getUrl());
         }
 
